@@ -6,8 +6,8 @@ import javax.persistence.Embeddable;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
 
-import com.simpleapp.map.Model.Trip;
-import com.simpleapp.map.Model.Customer;
+import com.simple.simpleapp.Model.Trip;
+import com.simple.simpleapp.Model.Customer;
 
 @SuppressWarnings("serial")
 @Embeddable

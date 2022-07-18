@@ -7,11 +7,11 @@
 		<version>2.7.0</version>
 		<relativePath /> <!-- lookup parent from repository -->
 	</parent>
-	<groupId>com.simpleapp</groupId>
-	<artifactId>map</artifactId>
+	<groupId>com.simple</groupId>
+	<artifactId>simpleapp</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<packaging>jar</packaging>
-	<name>map</name>
+	<name>appp</name>
 	<description>appp</description>
 	<properties>
 		<java.version>11</java.version>
