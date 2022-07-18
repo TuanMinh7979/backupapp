@@ -125,7 +125,7 @@ public class Trip {
     }
 
     @ManyToOne
-    @JoinColumn(name = "Cus_phone", nullable = false)
+    @JoinColumn(name = "cus_phone", nullable = false)
     private Customer customer;
 
     public void setCustomer(Customer customer) {

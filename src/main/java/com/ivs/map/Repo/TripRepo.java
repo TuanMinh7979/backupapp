@@ -24,8 +24,8 @@ public interface TripRepo extends JpaRepository<Trip, Long> {
 			nativeQuery = true)
 	Page<Trip> findByDriver(String phone, Pageable pageable);
 	//List<Trip> findByCustomer(Customer customer);
-	@Query(value = "SELECT * FROM Trip WHERE Cus_phone=?1",
-			countQuery = "SELECT count(*) FROM Trip WHERE Cus_phone=?1",
+	@Query(value = "SELECT * FROM Trip WHERE cus_phone=?1",
+			countQuery = "SELECT count(*) FROM Trip WHERE cus_phone=?1",
 			nativeQuery = true)
 	Page<Trip> findByCustomer(String cus_phone, Pageable pageable);
 	List<Trip> findByDriverAndState(Driver dr, State st);
