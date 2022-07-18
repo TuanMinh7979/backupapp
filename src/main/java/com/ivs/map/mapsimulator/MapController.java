@@ -62,14 +62,14 @@ public class MapController {
 
     @GetMapping("setup")
     public String setupIndex(Model model) {
-        File directoryPath = new File(PROJECT_ROOT + "\\src\\main\\webapp\\mapsimulator\\osm\\");
+        File directoryPath = new File(PROJECT_ROOT + "/src/main/webapp/mapsimulator/osm/");
         //List of all files and directories
         String contents[] = directoryPath.list();
         List<String> allMap = new ArrayList<>();
         for (int i = 0; i < contents.length; i++) {
             allMap.add(contents[i].substring(0, contents[i].lastIndexOf(".")));
         }
-        model.addAttribute("activeMapName", graphPath.substring(graphPath.lastIndexOf("\\") + 1, graphPath.lastIndexOf(".")));
+        model.addAttribute("activeMapName", graphPath.substring(graphPath.lastIndexOf("/") + 1, graphPath.lastIndexOf(".")));
         model.addAttribute("allMap", allMap);
         return "/mapsimulator/setup";
     }
@@ -81,7 +81,7 @@ public class MapController {
         updateOSM.updateOsmXmlData(osmPath);
         //for database
 
-        String newPlaceDbCsvPath = PROJECT_ROOT + "\\src\\main\\webapp\\mapsimulator\\dbcsv\\" + file.getOriginalFilename().substring(0, file.getOriginalFilename().indexOf(".")) + ".csv";
+        String newPlaceDbCsvPath = PROJECT_ROOT + "/src/main/webapp/mapsimulator/dbcsv/" + file.getOriginalFilename().substring(0, file.getOriginalFilename().indexOf(".")) + ".csv";
         updateOSM.createPlaceDBDataCSV(newPlaceDbCsvPath);
 
         String newGraphDataCsvPath = newPlaceDbCsvPath.replaceFirst("dbcsv", "graphcsv");
@@ -93,13 +93,13 @@ public class MapController {
     @GetMapping("/setup/setup-csvdata/{dataFileName}")
     @ResponseBody
     public ResponseEntity<String> changeGraphMap(@PathVariable String dataFileName) {
-        File graphCsvPath = new File(PROJECT_ROOT + "\\src\\main\\webapp\\mapsimulator\\graphcsv\\" + dataFileName + ".csv");
+        File graphCsvPath = new File(PROJECT_ROOT + "/src/main/webapp/mapsimulator/graphcsv/" + dataFileName + ".csv");
         if (!graphCsvPath.exists()) return new ResponseEntity<>("failed", HttpStatus.BAD_REQUEST);
-        setGraphPath(PROJECT_ROOT + "\\src\\main\\webapp\\mapsimulator\\graphcsv\\" + dataFileName + ".csv");
+        setGraphPath(PROJECT_ROOT + "/src/main/webapp/mapsimulator/graphcsv/" + dataFileName + ".csv");
 
-        File dbCsvPath = new File(PROJECT_ROOT + "\\src\\main\\webapp\\mapsimulator\\dbcsv\\" + dataFileName + ".csv");
+        File dbCsvPath = new File(PROJECT_ROOT + "/src/main/webapp/mapsimulator/dbcsv/" + dataFileName + ".csv");
         if (!dbCsvPath.exists()) return new ResponseEntity<>("failed", HttpStatus.BAD_REQUEST);
-        updateOSM.insertPlaceToDB(PROJECT_ROOT + "\\src\\main\\webapp\\mapsimulator\\dbcsv\\" + dataFileName + ".csv");
+        updateOSM.insertPlaceToDB(PROJECT_ROOT + "/src/main/webapp/mapsimulator/dbcsv/" + dataFileName + ".csv");
         hdleSetupGraph();
         return new ResponseEntity<>("success", HttpStatus.OK);
     }
@@ -152,17 +152,17 @@ public class MapController {
     @GetMapping("/setup/delete-csvdata/{dataFileName}")
     @ResponseBody
     public ResponseEntity<String> deleteMap(@PathVariable String dataFileName) {
-        File graphCsvPath = new File(PROJECT_ROOT + "\\src\\main\\webapp\\mapsimulator\\graphcsv\\" + dataFileName + ".csv");
+        File graphCsvPath = new File(PROJECT_ROOT + "/src/main/webapp/mapsimulator/graphcsv/" + dataFileName + ".csv");
         if (graphCsvPath.exists())
             graphCsvPath.delete();
 
-        File dbCsvPath = new File(PROJECT_ROOT + "\\src\\main\\webapp\\mapsimulator\\dbcsv\\" + dataFileName + ".csv");
+        File dbCsvPath = new File(PROJECT_ROOT + "/src/main/webapp/mapsimulator/dbcsv/" + dataFileName + ".csv");
         if (dbCsvPath.exists()) dbCsvPath.delete();
 
-        File graphXmlPath = new File(PROJECT_ROOT + "\\src\\main\\webapp\\mapsimulator\\osm\\" + dataFileName + ".xml");
+        File graphXmlPath = new File(PROJECT_ROOT + "/src/main/webapp/mapsimulator/osm/" + dataFileName + ".xml");
         if (graphXmlPath.exists())
             graphXmlPath.delete();
-        File graphOsmPath = new File(PROJECT_ROOT + "\\src\\main\\webapp\\mapsimulator\\osm\\" + dataFileName + ".osm");
+        File graphOsmPath = new File(PROJECT_ROOT + "/src/main/webapp/mapsimulator/osm/" + dataFileName + ".osm");
         if (graphOsmPath.exists())
             graphOsmPath.delete();
         return new ResponseEntity<>("delete map success", HttpStatus.OK);
