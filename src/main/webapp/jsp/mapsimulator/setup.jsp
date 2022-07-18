@@ -90,7 +90,7 @@
                         <button class="btn btn-success" type="submit">Submit</button>
                     </form>
 
-                    <span>Active Map: </span><span id="active-map-name-span">${activeMapName}</span>
+<%--                    <span>Active Map: </span><span id="active-map-name-span">${activeMapName}</span>--%>
                 </div>
 
 
