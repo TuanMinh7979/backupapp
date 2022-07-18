@@ -40,7 +40,8 @@ public class MapController {
     private final PlaceRepo placeRepo;
 
     private final String PROJECT_ROOT = System.getProperty("user.dir");
-    private String graphPath = PROJECT_ROOT + "\\src\\main\\webapp\\mapsimulator\\graphcsv\\default.csv";
+
+    private String graphPath = PROJECT_ROOT + "/src/main/webapp/mapsimulator/graphcsv/default.csv";
 
 
     @RequestMapping("")
