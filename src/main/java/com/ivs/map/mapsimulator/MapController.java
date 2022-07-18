@@ -60,20 +60,6 @@ public class MapController {
     }
 
 
-    @GetMapping("setup")
-    public String setupIndex(Model model) {
-        File directoryPath = new File(PROJECT_ROOT + "/src/main/webapp/mapsimulator/osm/");
-        //List of all files and directories
-        String contents[] = directoryPath.list();
-        List<String> allMap = new ArrayList<>();
-        for (int i = 0; i < contents.length; i++) {
-            allMap.add(contents[i].substring(0, contents[i].lastIndexOf(".")));
-        }
-        model.addAttribute("activeMapName", graphPath.substring(graphPath.lastIndexOf("/") + 1, graphPath.lastIndexOf(".")));
-        model.addAttribute("allMap", allMap);
-        return "/mapsimulator/setup";
-    }
-
     @PostMapping("setup")
     public String addUpdateAndCreateDbCsvDataFromXml(@RequestParam("file") MultipartFile file) {
         File savedFile = uploadUtil.handelUploadFile(file);
