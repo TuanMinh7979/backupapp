@@ -1,0 +1,115 @@
+@media ( max-width: 768px) {
+    #container, #trip-info {
+        display: flex;
+        flex-direction: column;
+
+    }
+
+    #driver-info {
+        display: flex;
+        flex-direction: column-reverse;
+    }
+
+    #driver-info div, #trip-info div {
+        width: 100%;
+    }
+
+
+    #message {
+        max-height: 300px;
+        overflow-y: scroll;
+    }
+
+    #mess-box-collapse {}
+
+    #collapse-mess {
+        width: 300px;
+        max-width: 320px;
+    }
+
+    body {
+        height: 145%;
+        overflow-y: scroll;
+    }
+
+
+
+
+}
+
+
+@media only screen and (max-width: 760px),
+(min-device-width: 768px) and (max-device-width: 1024px) {
+
+    #trip-list-table table, #trip-list-table thead, #trip-list-table tbody,#trip-list-table th,#trip-list-table td,#trip-list-table tr {
+        display: block;
+    }
+
+    #trip-list-table thead tr {
+        position: absolute;
+        top: -9999px;
+        left: -9999px;
+    }
+
+    #trip-list-table tr {
+        border: 2px solid #ccc;
+
+    }
+
+    #trip-list-table td {
+
+        position: relative;
+        width: 80% !important;
+        display: flex;
+        justify-content: right;
+        margin: 0 auto;
+
+    }
+
+
+    #trip-list-table td:before {
+
+        position: absolute;
+        top: 6px;
+        left: 6px;
+        width: 45%;
+        padding-right: 10px;
+        white-space: nowrap;
+        font-weight: bold;
+    }
+
+    /*
+    Label the data
+    */
+    #trip-list-table td:nth-of-type(1):before {
+        content: "Id";
+    }
+
+    #trip-list-table td:nth-of-type(2):before {
+        content: "Source";
+    }
+
+    #trip-list-table td:nth-of-type(3):before {
+        content: "Destination";
+    }
+
+    #trip-list-table td:nth-of-type(4):before {
+        content: "Date";
+    }
+
+    #trip-list-table td:nth-of-type(5):before {
+        content: "Driver name";
+    }
+
+    #trip-list-table td:nth-of-type(6):before {
+        content: "State";
+    }
+
+
+
+
+    /*td:nth-of-type(7):before {*/
+    /*    content: "Rating";*/
+    /*}*/
+
+}

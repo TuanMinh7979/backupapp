@@ -1,0 +1,302 @@
+/**Navigate bar**/
+#nav-bar {
+
+}
+
+/**Customer styles**/
+#customer {
+	padding: 0;
+	margin: 0;
+	height: 400px;
+}
+
+#customer.container {
+	margin-top: 50px;
+	max-width: 100vw;
+}
+
+#customer .row {
+	padding: 0;
+	margin: 0;
+}
+
+#customer .row .col {
+	background-color: #ccc;
+	padding: 0;
+	margin: 0;
+}
+
+/**Driver styles**/
+#driver {
+	padding: 0;
+	margin: 0;
+	height: 400px;
+}
+
+#driver.container {
+	max-width: 100vw;
+}
+
+#driver .row {
+	padding: 0;
+	margin: 0;
+}
+
+#driver .row .col {
+	background-color: #ccc;
+	padding: 0;
+	margin: 0;
+}
+
+/**Sign in**/
+#background-sign-in{
+	height: 100vh;
+	width: 100vw;
+	z-index: 0;
+	background-image: url("https://www.focus.it/site_stored/imgs/0003/021/google-maps.1020x680.jpg");
+	background-repeat: no-repeat;
+	background-size:cover;
+	background-position: center;
+}
+#sign-in-box {
+	z-index: 20;
+	position: fixed;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%, -50%);
+	border-radius: 20px;
+}
+
+#sign-in-box .container {
+	border-radius: 20px;
+	position: relative;
+	height: 295px;
+	width: 400px;
+}
+
+#sign-in-box h4 {
+	position: absolute;
+	left: 50%;
+	transform: translateX(-50%);
+	white-space: nowrap;
+	margin-top: 16px;
+}
+
+#sign-in-box form {
+	position: absolute;
+	margin-top: 60px;
+	width: 93%;
+}
+
+/**Sign up**/
+#background-sign-up{
+	height: 100vh;
+	width: 100vw;
+	z-index: 0;
+	background-image: url("https://www.focus.it/site_stored/imgs/0003/021/google-maps.1020x680.jpg");
+	background-repeat: no-repeat;
+	background-size:cover;
+	background-position: center;
+}
+#sign-up-box {
+	z-index: 20;
+	position: fixed;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%, -50%);
+	border-radius: 20px;
+}
+
+#sign-up-box .container {
+	position: relative;
+	height: 570px;
+	width: 400px;
+}
+
+#sign-up-box h4 {
+	position: absolute;
+	left: 50%;
+	transform: translateX(-50%);
+	white-space: nowrap;
+	margin-top: 16px;
+}
+
+#sign-up-box form {
+	position: absolute;
+	margin-top: 60px;
+	width: 93%;
+}
+/**User info**/
+#user-info-background {
+	background-color:#ccc;
+	/* Add the blur effect */
+	filter: blur(0px);
+	-webkit-filter: blur(0px);
+	/* Full height */
+	height: 100%;
+	/* Center and scale the image nicely */
+	background-position: center;
+	background-repeat: no-repeat;
+	background-size: cover;
+	/* Center and scale the image nicely */
+}
+
+#user-info-layout {
+	height:100%;
+	width: 100%;
+}
+
+#user-info-layout .container{
+	margin:0;
+	max-width:100%;
+}
+
+#user-info-layout .header h2{
+	padding-bottom: 12px;
+    padding-top: 23px;
+    text-align: center;
+}
+
+.radius{
+	border-radius:20px;
+}
+/*Table styles*/
+.tableFixHeight {
+    height: 360px;
+    display: block;
+    overflow-y: auto;
+    overflow-x: hidden;
+}
+
+
+.tableFixHeight tr {
+    width: 100%;
+    display: table;
+    table-layout: fixed;
+}
+
+.table-side{
+	height:120px;
+}
+
+/*Anoument*/
+#anoument{
+	position:fixed;
+	top:0;
+	right:0;
+	z-index: 10000;
+}
+
+/*Rate, view rate div*/
+div.js-div-rate{
+	display:inherit;
+}
+
+/*Height Trip in live*/
+#tripInLive{
+	height: 445px;
+}
+#tripInLive .table-trip-in-live{
+	height: 250px;
+}
+
+/*Collapse Mess*/
+#mess-box-collapse{
+	position:fixed;
+	bottom: 12px;
+	right: 12px;
+	display: flex;
+	flex-direction: row;
+	justify-content: flex-end;
+	padding-right: 32px;
+}
+#collapse-mess{
+	border-radius:20px;
+	opacity: 0.8;
+}
+#mess-toggle{
+	height: 50px;
+	width: 50px;
+	border-radius: 50%;
+	background-color: #000;
+	color: whitesmoke;
+}
+#mess-toggle:hover{
+	opacity: 0.8;
+	cursor: pointer;
+}
+#mess-toggle svg{
+	margin:9px;
+}
+#head-mess{
+	border-bottom: 1px white solid;
+    border-radius: 20px;
+    background-color: black;
+}
+#mess-content{
+	border-top-left-radius: 20px;
+	border-top-right-radius: 20px;
+}
+#message{
+	height: 300px;
+	width: 300px;
+	margin-top: 10px;
+}
+#form{
+	margin: 10px 0 0;
+}
+/*Message box css*/
+#message::-webkit-scrollbar-track {
+	-webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.6);
+	background-color: #F5F5F5;
+}
+
+#message::-webkit-scrollbar {
+	width: 6px;
+	background-color: #F5F5F5;
+}
+
+#message::-webkit-scrollbar-thumb {
+	background-color: #ccc;
+}
+#message{
+	max-height: 300px;
+	width: 300px;
+	overflow-y: scroll;
+}
+
+/*Message line css*/
+#message div {
+	margin: 4px;
+}
+#message .receiver{
+	margin-top: 4px;
+}
+
+#message .sender{
+	margin-top: 4px;
+}
+
+#message span{
+	border-radius: 5px;
+	padding: 8px;
+}
+
+#message .receiver span{
+	color: #000;
+	background-color: aqua;
+}
+
+#message .sender span{
+	background-color: maroon;
+}
+/*Body*/
+body{
+	background-color: #ccc;
+    overflow-y: scroll;
+}
+
+/*Pagination*/
+#pagination{
+	width: 400px;
+}

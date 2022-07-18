@@ -1,0 +1,56 @@
+<div id="user-info-background">
+  <div id="user-info-layout" class="position-relative">
+    <div id="container" class="container px-4 py-4 position-absolute">
+      <!-- Header -->
+      <div class="row gx-5 header justify-content-md-center">
+        <div class="col-5">
+          <div class="radius p-3 bg-light">
+            <h2>FIND CUSTOMER</h2>
+          </div>
+        </div>
+      </div>
+      <!-- Body -->
+      <div class="row gx-5 header mt-4 justify-content-md-center">
+        <div class="col-5">
+          <div class="table-responsive radius p-3 bg-light">
+            <table class="table table-bordered tableFixHeight">
+              <thead>
+                <tr class="col-12">
+                  <th class="col-1">Id</th>
+                  <th class="col-3">Source</th>
+                  <th class="col-3">Destination</th>
+                  <th class="col-3">Price</th>
+                  <th class="col-2"></th>
+                </tr>
+              </thead>
+              <tbody id="tabledata">
+              <c:forEach var="trip" items="${listTrip}">
+                <tr class="col-12">
+                  <td class="col-1">${trip.tripId}</td>
+                  <td class="col-3">${trip.source}</td>
+                  <td class="col-3">${trip.destination}</td>
+                  <td class="col-3">${Math.round(trip.distance* trip.unit_price)} VND</td>
+                  <td class="col-2">
+	              <a id="send1" href="/driver/trip/trip-accept/${trip.tripId}" class="btn btn-outline-success js-show-annoument">Accept</a>
+                  </td>
+                </tr>
+               </c:forEach>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+      <!-- Bottom -->
+      <div class="row gx-5 header mt-4 justify-content-md-center">
+        <div class="col-5">
+        	<div class="radius p-3 bg-light d-flex justify-content-md-center gap-3">
+        		<a href="/driver" class="btn btn-outline-dark">Back to Info page</a>
+        		<a href="<c:url value='/driver/trip/list-trip-init'/>" class="btn btn-outline-primary">Refresh</a>
+        	</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+

@@ -1,0 +1,449 @@
+<div id="user-info-background">
+    <div id="user-info-layout">
+        <div id="container" class="container px-4 py-4">
+            <div id="driver-info" class="row gx-5 header">
+                <div class="col-3">
+                    <div class="radius p-3 bg-light">
+                        <p>Full Name: ${driver.fullname}</p>
+                        <p>Phone: ${driver.phone}</p>
+                        <p>Address: ${driver.address}</p>
+                        <div class="d-flex justify-content-between">
+                            <button
+                                    type="button"
+                                    class="btn btn-primary"
+                                    data-bs-toggle="modal"
+                                    data-bs-target="#updateInfoModal"
+                            >
+                                Update info
+                            </button>
+                            <a class="btn btn-danger" href="<c:url value='/logout'/>">
+                                Log out
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-9">
+                    <div class="radius p-3 bg-light">
+                        <h2>TRIP INFO</h2>
+                    </div>
+                </div>
+            </div>
+            <div id="trip-info" class="row gx-5 header mt-4">
+                <div class="col-3">
+                    <c:if test="${liveTrip == null}">
+                        <div class="radius p-3 bg-light d-flex justify-content-center">
+                            <a
+                                    href="<c:url value='/driver/trip/list-trip-init'/>"
+                                    class="btn btn-outline-primary"
+                            >Find Customer</a
+                            >
+                        </div>
+                    </c:if>
+                    <c:if test="${liveTrip != null}">
+                        <div
+                                class="radius p-3 bg-light d-flex justify-content-center flex-column mt-3"
+                        >
+                            <h2 class="pt-0 text-success">Trip in live</h2>
+                            <table class="table table-bordered tableFixHeight table-side" id="trip-in-live-table">
+                                <thead>
+
+                                <tr>
+                                    <th class="col">Source</th>
+                                    <td id="sourceTh" class="col">${liveTrip.source}</td>
+                                </tr>
+                                <tr>
+                                    <th class="col">Destination</th>
+                                    <td id="destinationTh" class="col">${liveTrip.destination}</td>
+                                </tr>
+                                <tr>
+                                    <th class="col">Date</th>
+                                    <td id="time-live-trip" class="col">${liveTrip.day_time}</td>
+                                </tr>
+                                <tr>
+                                    <th class="col">Customer name</th>
+                                    <td class="col">${liveTrip.driver.fullname}</td>
+                                </tr>
+                                <tr>
+                                    <th class="col">Customer phone</th>
+                                    <td class="col">${liveTrip.driver.phone}</td>
+                                </tr>
+                                <tr>
+                                    <th class="col">Distance</th>
+                                    <td id="distance-live-trip" class="col">${liveTrip.distance} Km</td>
+                                </tr>
+                                <tr class="table-success">
+                                    <th class="col">Price</th>
+                                    <td class="col">${Math.round(liveTrip.distance*liveTrip.unit_price)} VND</td>
+                                </tr>
+                                </thead>
+                            </table>
+                            <div class="d-flex flex-row justify-content-between">
+                                <button
+                                        type="button"
+                                        class="btn btn-success"
+                                        data-bs-toggle="modal"
+                                        data-bs-target="#confirmCompleteTripModal"
+                                >
+                                    Complete Trip
+                                </button>
+                                <button
+                                        id="useMapBtn"
+                                        type="button"
+                                        class="btn btn-outline-success"
+                                >
+                                    Use Map
+                                </button>
+                            </div>
+                        </div>
+                    </c:if>
+                </div>
+                <div class="col-9">
+                    <div
+                            class="radius p-3 bg-light d-flex justify-content-center flex-column"
+                    >
+                        <div class="mb-3">
+                            <a class="btn btn-warning disabled">ACCEPTED TRIP LIST</a>
+                        </div>
+                        <table class="table table-bordered tableFixHeight" id="trip-list-table">
+                            <thead>
+                            <tr>
+                                <th>Id</th>
+                                <th class="col-2">Source</th>
+                                <th class="col-2">Destination</th>
+                                <th class="col-2">Date</th>
+                                <th class="col-2">Customer Name</th>
+                                <th class="">State</th>
+                            </tr>
+                            </thead>
+                            <tbody id="tabledata">
+                            <c:forEach var="trip" items="${listTrip}">
+                                <tr>
+                                    <td>${trip.tripId}</td>
+                                    <td class="col-2">${trip.source}</td>
+                                    <td class="col-2">${trip.destination}</td>
+                                    <td class="col-2">${trip.day_time}</td>
+                                    <td class="col-2">${trip.customer.fullname}</td>
+                                    <c:if test="${trip.state.state_id == 2}">
+                                        <td class="text-warning">${trip.state.content}</td>
+                                    </c:if>
+                                    <c:if test="${trip.state.state_id == 3}">
+                                        <td class="text-success">${trip.state.content}</td>
+                                    </c:if>
+                                    <c:if test="${trip.state.state_id == 4}">
+                                        <td class="text-danger">${trip.state.content}</td>
+                                    </c:if>
+                                </tr>
+                            </c:forEach>
+                            </tbody>
+                        </table>
+                        <!-- PAGINATION -->
+                        <nav
+                                aria-label="Page navigation example"
+                                class="d-flex justify-content-end"
+                        >
+                            <ul id="pagination" class="pagination d-flex justify-content-end">
+                                <li class="page-item">
+                                    <!--Check condition when click back arrow (if page in 1 then trigger this if)-->
+                                    <a
+                                            class="page-link"
+                                            href="/driver/${1}"
+                                            aria-label="Previous"
+                                    >
+                                        <span aria-hidden="true">&laquo;</span>
+                                    </a>
+                                </li>
+                                <c:choose>
+                                    <c:when test="${totalPageTrip<=8}">
+                                        <c:forEach var="i" begin="1" end="${totalPageTrip}">
+                                            <c:if test="${i == currentPage}">
+                                                <li class="page-item active" aria-current="page">
+                                                    <a class="page-link" href="/driver/${i}">${i}</a>
+                                                </li>
+                                            </c:if>
+                                            <c:if test="${i != currentPage}">
+                                                <li class="page-item">
+                                                    <a class="page-link" href="/driver/${i}">${i}</a>
+                                                </li>
+                                            </c:if>
+                                        </c:forEach>
+                                    </c:when>
+                                    <c:otherwise>
+                                        <c:if test="${currentPage==1}">
+                                            <li class="page-item active" aria-current="page">
+                                                <a class="page-link" href="/driver/1">1</a>
+                                            </li>
+                                            <c:forEach var="i" begin="${currentPage+1}" end="${currentPage+7}">
+                                                <c:if test="${i != currentPage}">
+                                                    <li class="page-item">
+                                                        <a class="page-link" href="/driver/${i}">${i}</a>
+                                                    </li>
+                                                </c:if>
+                                            </c:forEach>
+                                        </c:if>
+                                        <c:if test="${currentPage>1}">
+                                            <c:choose>
+                                                <c:when test="${totalPageTrip-currentPage>6}">
+                                                    <li class="page-item">
+                                                        <a class="page-link" href="/driver/${currentPage-1}">${currentPage-1}</a>
+                                                    </li>
+                                                    <li class="page-item active" aria-current="page">
+                                                        <a class="page-link" href="/driver/${currentPage}">${currentPage}</a>
+                                                    </li>
+                                                    <c:forEach var="i" begin="${currentPage+1}" end="${currentPage+6}">
+                                                        <c:if test="${i != currentPage}">
+                                                            <li class="page-item">
+                                                                <a class="page-link" href="/driver/${i}">${i}</a>
+                                                            </li>
+                                                        </c:if>
+                                                    </c:forEach>
+                                                </c:when>
+                                                <c:otherwise>
+                                                    <c:forEach var="i" begin="${totalPageTrip-7}" end="${totalPageTrip}">
+                                                        <c:if test="${i == currentPage}">
+                                                            <li class="page-item active" aria-current="page">
+                                                                <a class="page-link" href="/driver/${i}">${i}</a>
+                                                            </li>
+                                                        </c:if>
+                                                        <c:if test="${i != currentPage}">
+                                                            <li class="page-item">
+                                                                <a class="page-link" href="/driver/${i}">${i}</a>
+                                                            </li>
+                                                        </c:if>
+                                                    </c:forEach>
+                                                </c:otherwise>
+                                            </c:choose>
+                                        </c:if>
+
+                                    </c:otherwise>
+                                </c:choose>
+                                <li class="page-item">
+                                    <!--Check condition when click forward arrow (if page in max page then trigger this if)-->
+                                    <a
+                                            class="page-link"
+                                            href="/driver/${totalPageTrip}"
+                                            aria-label="Next"
+                                    >
+                                        <span aria-hidden="true">&raquo;</span>
+                                    </a>
+                                </li>
+                            </ul>
+                        </nav>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Modal -->
+<div
+        class="modal fade"
+        id="updateInfoModal"
+        tabindex="-1"
+        aria-labelledby="updateInfoModalLabel"
+        aria-hidden="true"
+>
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="updateInfoModalLabel">Update Info</h5>
+                <button
+                        type="button"
+                        class="btn-close"
+                        data-bs-dismiss="modal"
+                        aria-label="Close"
+                ></button>
+            </div>
+            <!-- Update form -->
+            <form id="form-update-driver" action="/driver/update-info" method="post">
+                <div class="modal-body">
+                    <label class="form-label">Full Name</label>
+                    <input
+                            type="text"
+                            class="form-control"
+                            name="fullname"
+                            value="${driver.fullname}"
+                            pattern="[a-zA-Z\s]{1,32}" title="Full Name should only contains word" required
+                    />
+                    <label class="form-label">Phone</label>
+                    <input
+                            type="text"
+                            class="form-control"
+                            name="phone"
+                            readonly="readonly"
+                            value="${driver.phone}"
+                    />
+                    <label class="form-label">Address</label>
+                    <input
+                            type="text"
+                            class="form-control"
+                            name="address"
+                            value="${driver.address}"
+                            required
+                    />
+                </div>
+                <div class="modal-footer">
+                    <button
+                            type="button"
+                            class="btn btn-secondary"
+                            data-bs-dismiss="modal"
+                    >
+                        Close
+                    </button>
+                    <button type="submit" class="btn btn-primary js-show-annoument">
+                        Save changes
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+<!-- Complete Confirm Modal -->
+<div
+        class="modal fade"
+        id="confirmCompleteTripModal"
+        tabindex="-1"
+        aria-labelledby="confirmCompleteTripModalLabel"
+        aria-hidden="true"
+>
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="confirmCompleteTripModalLabel">
+                    Complete Trip
+                </h5>
+                <button
+                        type="button"
+                        class="btn-close"
+                        data-bs-dismiss="modal"
+                        aria-label="Close"
+                ></button>
+            </div>
+            <!-- form -->
+            <form
+                    id="form-confrim-complete"
+                    action="/driver/trip/TripComplete/${liveTrip.tripId}"
+                    method="post"
+            >
+                <div class="modal-body">
+                    Click yes to confirm the trip which are completed
+                </div>
+                <input type="hidden" value="${socket}" id="socket" />
+                <input type="hidden" value="${socketAccept}" id="socketAccept" />
+                <input
+                        type="hidden"
+                        value="${phone_customer_socket}"
+                        id="phone_customer_socket"
+                />
+                <input
+                        type="hidden"
+                        value="${phone_customer_socket_accept}"
+                        id="phone_customer_socket_accept"
+                />
+                <div class="modal-footer">
+                    <button
+                            type="button"
+                            class="btn btn-secondary"
+                            data-bs-dismiss="modal"
+                    >
+                        Close
+                    </button>
+                    <button type="submit" class="btn btn-success js-show-annoument">
+                        Yes
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<input
+        type="hidden"
+        value="${driver.phone}"
+        id="phone_driver_socket_chatting"
+/>
+<input
+        type="hidden"
+        value="${liveTrip.driver.phone}"
+        id="phone_driver_socket_cancel"
+/>
+
+<!--MESS COLAPSE-->
+<c:if test="${liveTrip != null}">
+    <div id="mess-box-collapse">
+        <div id="mess-toggle">
+        <span
+                class=""
+                data-bs-toggle="collapse"
+                href="#collapse-mess"
+                role="button"
+                aria-expanded="false"
+                aria-controls="collapse-mess"
+        >
+          <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="32"
+                  height="32"
+                  fill="currentColor"
+                  class="bi bi-chat-dots"
+                  viewBox="0 0 16 16"
+          >
+            <path
+                    d="M5 8a1 1 0 1 1-2 0 1 1 0 0 1 2 0zm4 0a1 1 0 1 1-2 0 1 1 0 0 1 2 0zm3 1a1 1 0 1 0 0-2 1 1 0 0 0 0 2z"
+            />
+            <path
+                    d="m2.165 15.803.02-.004c1.83-.363 2.948-.842 3.468-1.105A9.06 9.06 0 0 0 8 15c4.418 0 8-3.134 8-7s-3.582-7-8-7-8 3.134-8 7c0 1.76.743 3.37 1.97 4.6a10.437 10.437 0 0 1-.524 2.318l-.003.011a10.722 10.722 0 0 1-.244.637c-.079.186.074.394.273.362a21.673 21.673 0 0 0 .693-.125zm.8-3.108a1 1 0 0 0-.287-.801C1.618 10.83 1 9.468 1 8c0-3.192 3.004-6 7-6s7 2.808 7 6c0 3.193-3.004 6-7 6a8.06 8.06 0 0 1-2.088-.272 1 1 0 0 0-.711.074c-.387.196-1.24.57-2.634.893a10.97 10.97 0 0 0 .398-2z"
+            />
+          </svg>
+        </span>
+        </div>
+        <div id="collapse-mess" class="bg-secondary collapse">
+
+            <div id="mess-content" class="text-bg-secondary">
+
+                <div id="head-mess" class="d-flex flex-column justify-content-center">
+                    <h2 class="pt-0" style="text-align: center;">Chat with customer</h2>
+                    <span style="text-align: center;">Customer name: ${liveTrip.customer.fullname}</span>
+                </div>
+                <div id="message" class="text-bg-secondary d-flex flex-column">
+                    <c:forEach var="chat" items="${listChat}">
+                        <tr>
+                            <td>
+                                <c:if test="${chat.sendTo}">
+                                    <div class="d-flex justify-content-end sender">
+                                        <span>${chat.content}</span>
+                                    </div
+                                    >
+                                </c:if>
+                                <c:if test="${chat.sendTo==false}">
+                                    <div class="d-flex justify-content-start receiver">
+                                        <span>${chat.content}</span></div
+                                    >
+                                </c:if>
+                            </td>
+                        </tr>
+                    </c:forEach>
+                </div>
+            </div>
+            <form id="form">
+                <div class="d-flex justify-content-between gap-2 px-2 py-2">
+                    <!-- <input type="text" class="form-control"/> -->
+                    <textarea class="form-control" id="socketChatting" rows="1" pattern="^\s*$" required>
+            </textarea>
+                    <input
+                            type="hidden"
+                            value="${liveTrip.customer.phone}"
+                            id="phone_customer_socket_chatting"
+                    />
+                    <input
+                            type="hidden"
+                            value="${liveTrip.tripId}"
+                            id="trip_id"
+                    />
+                    <button id="send" type="button" class="btn btn-primary">
+                        Send
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</c:if>

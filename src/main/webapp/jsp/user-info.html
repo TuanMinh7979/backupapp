@@ -1,0 +1,526 @@
+<div id="user-info-background">
+    <div id="user-info-layout">
+        <div id="container" class="container px-4 py-4">
+            <!-- USER INFO -->
+            <div id="user-info" class="row gx-5 header">
+                <div class="col-3">
+                    <div class="radius p-3 bg-light">
+                        <p>Full Name: ${customer.fullname}</p>
+                        <p>Phone: ${customer.phone}</p>
+                        <div class="d-flex justify-content-between">
+                            <button type="button" class="btn btn-primary" data-bs-toggle="modal"
+                                    data-bs-target="#updateInfoModal">
+                                Update info</button>
+                            <a class="btn btn-danger" href="<c:url value='/logout'/>">
+                                Log out </a>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-9">
+                    <div class="radius p-3 bg-light">
+                        <h2>CUSTOMER INFO</h2>
+                    </div>
+                </div>
+            </div>
+            <!-- TRIP IN LIVE -->
+            <div id="trip-in-live" class="row gx-5 header mt-4">
+                <div class="col-3">
+                    <!-- Choose -->
+                    <c:choose>
+                        <c:when test="${trip.state.state_id==1}">
+                            <div class="radius p-3 bg-light d-flex justify-content-center flex-column mt-2">
+                                <h2 class="pt-0 text-success">Trip in live</h2>
+                                <table class="table table-bordered tableFixHeight table-side" id="trip-in-live-table1">
+                                    <thead>
+                                    <tr>
+                                        <th class="col">Source</th>
+                                        <th class="col">Destination</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody id="tabledata">
+                                    <tr>
+                                        <th id="sourceTh" class="col">${trip.source}</th>
+                                        <th id="destinationTh" class="col">${trip.destination}</th>
+                                    </tr>
+                                    </tbody>
+                                </table>
+                                <button type="button" class="btn btn-danger js-show-annoument js-m-mess"
+                                        data-bs-toggle="modal" data-bs-target="#confirmDeleteTripModal">
+                                    Cancel Trip
+                                </button>
+                            </div>
+
+                        </c:when>
+
+                        <c:when test="${trip.state.state_id==2}">
+
+                            <div id="tripInLive"
+                                 class="radius p-3 bg-light d-flex justify-content-center flex-column mt-3">
+                                <h2 class="pt-0 text-success">Trip in live</h2>
+                                <table class="table table-bordered tableFixHeight table-side table-trip-in-live" id="trip-in-live-table2">
+                                    <thead>
+
+                                    <tr>
+                                        <th class="col">Source</th>
+                                        <td id="sourceTh" class="col">${trip.source}</td>
+                                    </tr>
+                                    <tr>
+                                        <th class="col">Destination</th>
+                                        <td id="destinationTh" class="col">${trip.destination}</td>
+                                    </tr>
+                                    <tr>
+                                        <th class="col">Date</th>
+                                        <td id="time-live-trip" class="col">${trip.day_time}</td>
+                                    </tr>
+                                    <tr>
+                                        <th class="col">Driver name</th>
+                                        <td class="col">${trip.driver.fullname}</td>
+                                    </tr>
+                                    <tr>
+                                        <th class="col">Driver phone</th>
+                                        <td class="col">${trip.driver.phone}</td>
+                                    </tr>
+                                    <tr>
+                                        <th class="col">Distance</th>
+                                        <td id="distance-live-trip" class="col">${trip.distance} Km</td>
+                                    </tr>
+                                    <tr class="table-success">
+                                        <th class="col">Price</th>
+                                        <td class="col">${Math.round(trip.distance*trip.unit_price)} VND</td>
+                                    </tr>
+
+                                    </thead>
+
+                                </table>
+                                <div id="btn-group-trip-in-live"
+                                     class="radius pt-2 bg-light d-flex justify-content-between">
+                                    <button class="btn btn-outline-danger" disabled>Trip
+                                        Recived</button>
+                                    <a id="tripInfoBtn" class="btn btn-outline-primary">Trip info</a>
+                                </div>
+                            </div>
+
+                        </c:when>
+                        <c:otherwise>
+                            <div class="radius p-3 bg-light d-flex justify-content-center">
+                                <a id="bookTripBtn" class="btn btn-outline-primary">Book trip</a>
+                            </div>
+                        </c:otherwise>
+                    </c:choose>
+                </div>
+                <!-- TRIP LIST TABLE -->
+                <div class="col-9">
+                    <div class="radius p-3 bg-light d-flex justify-content-center flex-column">
+                        <div class="mb-3">
+                            <a class="btn btn-warning disabled">TRIP BOOKED LIST</a>
+                        </div>
+                        <!-- Table -->
+                        <table id="trip-list-table"class="table table-bordered tableFixHeight">
+                            <thead>
+                            <tr>
+                                <th class="col-1">Id</th>
+                                <th class="col-2">Source</th>
+                                <th class="col-2">Destination</th>
+                                <th class="col-2">Date</th>
+                                <th class="col-2">Driver name</th>
+                                <th class="col-2">State</th>
+                                <th class="col-2">Rating</th>
+                            </tr>
+                            </thead>
+                            <tbody id="tabledata">
+                            <c:forEach var="trip" items="${listTrip}" varStatus="loop">
+                                <tr>
+                                    <td class="col-1">${trip.tripId}</td>
+                                    <td class="col-2">${trip.source}</td>
+                                    <td class="col-2">${trip.destination}</td>
+                                    <td class="col-2">${trip.day_time}</td>
+                                    <td class="col-2">${trip.driver.fullname}</td>
+                                    <c:if test="${trip.state.state_id == 1}">
+                                        <td class="col-2 text-dark">${trip.state.content}</td>
+                                    </c:if>
+                                    <c:if test="${trip.state.state_id == 2}">
+                                        <td class="col-2 text-warning">${trip.state.content}</td>
+                                    </c:if>
+                                    <c:if test="${trip.state.state_id == 3}">
+                                        <td class="col-2 text-success">${trip.state.content}</td>
+                                    </c:if>
+                                    <c:if test="${trip.state.state_id == 4}">
+                                        <td class="col-2 text-danger">${trip.state.content}</td>
+                                    </c:if>
+                                    <c:choose>
+                                        <c:when
+                                                test="${ratting[loop.index].rattingId==null && trip.state.state_id == 3}">
+                                            <td class="col-2">
+                                                <div class="js-div-rate">
+                                                    <button class="btn btn-success js-btn-rate-modal"
+                                                            data-bs-toggle="modal" data-bs-target="#rateModal">Rate
+                                                    </button>
+                                                    <span style="display:none">${trip.tripId}</span>
+                                                </div>
+                                            </td>
+                                        </c:when>
+                                        <c:when
+                                                test="${ratting[loop.index].rattingId!=null && trip.state.state_id == 3}">
+                                            <td class="col-2">
+                                                <div class="js-div-view-modal">
+                                                    <button class="btn btn-outline-success js-btn-view-modal"
+                                                            data-bs-toggle="modal" data-bs-target="#viewRateModal">View
+                                                        rate
+                                                    </button>
+                                                    <span class="star"
+                                                          style="display:none">${ratting[loop.index].star}</span>
+                                                    <span name="content-span" class="content"
+                                                          style="display:none">${ratting[loop.index].content}</span>
+                                                </div>
+                                            </td>
+                                        </c:when>
+                                        <c:otherwise>
+                                            <td class="col-2">
+                                                <button class="btn btn-danger" disabled>
+                                                    Can't rate
+                                                </button>
+                                            </td>
+                                        </c:otherwise>
+                                    </c:choose>
+                            </c:forEach>
+                            </tbody>
+                        </table>
+                        <!--PAGINATION-->
+                        <nav
+                                aria-label="Page navigation example"
+                                class="d-flex justify-content-end"
+                        >
+                            <ul id="pagination" class="pagination d-flex justify-content-end">
+                                <li class="page-item">
+                                    <!--Check condition when click back arrow (if page in 1 then trigger this if)-->
+                                    <a
+                                            class="page-link"
+                                            href="/customer/${1}"
+                                            aria-label="Previous"
+                                    >
+                                        <span aria-hidden="true">&laquo;</span>
+                                    </a>
+                                </li>
+                                <c:choose>
+                                    <c:when test="${totalPageTrip<=8}">
+                                        <c:forEach var="i" begin="1" end="${totalPageTrip}">
+                                            <c:if test="${i == currentPage}">
+                                                <li class="page-item active" aria-current="page">
+                                                    <a class="page-link" href="/customer/${i}">${i}</a>
+                                                </li>
+                                            </c:if>
+                                            <c:if test="${i != currentPage}">
+                                                <li class="page-item">
+                                                    <a class="page-link" href="/customer/${i}">${i}</a>
+                                                </li>
+                                            </c:if>
+                                        </c:forEach>
+                                    </c:when>
+                                    <c:otherwise>
+                                        <c:if test="${currentPage==1}">
+                                            <li class="page-item active" aria-current="page">
+                                                <a class="page-link" href="/customer/1">1</a>
+                                            </li>
+                                            <c:forEach var="i" begin="${currentPage+1}" end="${currentPage+7}">
+                                                <c:if test="${i != currentPage}">
+                                                    <li class="page-item">
+                                                        <a class="page-link" href="/customer/${i}">${i}</a>
+                                                    </li>
+                                                </c:if>
+                                            </c:forEach>
+                                        </c:if>
+                                        <c:if test="${currentPage>1}">
+                                            <c:choose>
+                                                <c:when test="${totalPageTrip-currentPage>6}">
+                                                    <li class="page-item">
+                                                        <a class="page-link" href="/customer/${currentPage-1}">${currentPage-1}</a>
+                                                    </li>
+                                                    <li class="page-item active" aria-current="page">
+                                                        <a class="page-link" href="/customer/${currentPage}">${currentPage}</a>
+                                                    </li>
+                                                    <c:forEach var="i" begin="${currentPage+1}" end="${currentPage+6}">
+                                                        <c:if test="${i != currentPage}">
+                                                            <li class="page-item">
+                                                                <a class="page-link" href="/customer/${i}">${i}</a>
+                                                            </li>
+                                                        </c:if>
+                                                    </c:forEach>
+                                                </c:when>
+                                                <c:otherwise>
+                                                    <c:forEach var="i" begin="${totalPageTrip-7}" end="${totalPageTrip}">
+                                                        <c:if test="${i == currentPage}">
+                                                            <li class="page-item active" aria-current="page">
+                                                                <a class="page-link" href="/customer/${i}">${i}</a>
+                                                            </li>
+                                                        </c:if>
+                                                        <c:if test="${i != currentPage}">
+                                                            <li class="page-item">
+                                                                <a class="page-link" href="/customer/${i}">${i}</a>
+                                                            </li>
+                                                        </c:if>
+                                                    </c:forEach>
+                                                </c:otherwise>
+                                            </c:choose>
+                                        </c:if>
+
+                                    </c:otherwise>
+                                </c:choose>
+                                <li class="page-item">
+                                    <!--Check condition when click forward arrow (if page in max page then trigger this if)-->
+                                    <a
+                                            class="page-link"
+                                            href="/customer/${totalPageTrip}"
+                                            aria-label="Next"
+                                    >
+                                        <span aria-hidden="true">&raquo;</span>
+                                    </a>
+                                </li>
+                            </ul>
+                        </nav>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!--</div>-->
+<!-- Modal -->
+<!-- Update Modal -->
+<div class="modal fade" id="updateInfoModal" tabindex="-1" aria-labelledby="updateInfoModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="updateInfoModalLabel">Update Info</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <!-- Update form -->
+            <form id="form-update-driver" action="/customer/update/" method="post">
+                <div class="modal-body">
+                    <label class="form-label">Full Name</label> <input type="text" class="form-control" name="fullname"
+                                                                       value="${customer.fullname}" pattern="[a-zA-Z\s]{1,32}" title="Full Name should only contains word" required/>
+                    <label class="form-label">Phone</label> <input type="text" class="form-control" name="phone"
+                                                                   value="${customer.phone}" readonly/>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button type="submit" class="btn btn-primary js-show-annoument js-m-mess">Save
+                        changes
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<!-- Confirm Modal -->
+<div class="modal fade" id="confirmDeleteTripModal" tabindex="-1" aria-labelledby="confirmDeleteTripModalLabel"
+     aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="confirmDeleteTripModalLabel">Cancel
+                    Trip</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <!-- form -->
+            <form id="form-confrim-delete" action="/customer/trip/${trip.tripId}" method="post">
+                <div class="modal-body">Do you sure to cancel this trip ?</div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button type="submit" class="btn btn-danger">Yes</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+<!-- View rate model -->
+<div class="modal fade" id="viewRateModal" tabindex="-1" aria-labelledby="viewRateModaLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="viewRateModaLabel">View rate</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <!-- Body -->
+            <div class="modal-body">
+                <div class="mb-3">
+                    <label class="form-label">Star</label>
+                    <div class="writed-review_stars d-flex flex-row justify-content-center gap-2">
+						<span class="write-review__star"><svg xmlns="http://www.w3.org/2000/svg" width="36" height="36"
+                                                              viewBox="0 0 32 32">
+								<path fill="none" fill-rule="evenodd" stroke="#FFB500" stroke-width="1.5"
+                                      d="M16 1.695l-4.204 8.518-9.401 1.366 6.802 6.631-1.605 9.363L16 23.153l8.408 4.42-1.605-9.363 6.802-6.63-9.4-1.367L16 1.695z">
+								</path>
+							</svg></span><span class="write-review__star"><svg xmlns="http://www.w3.org/2000/svg"
+                                                                               width="36" height="36"
+                                                                               viewBox="0 0 32 32">
+								<path fill="none" fill-rule="evenodd" stroke="#FFB500" stroke-width="1.5"
+                                      d="M16 1.695l-4.204 8.518-9.401 1.366 6.802 6.631-1.605 9.363L16 23.153l8.408 4.42-1.605-9.363 6.802-6.63-9.4-1.367L16 1.695z">
+								</path>
+							</svg></span><span class="write-review__star"><svg xmlns="http://www.w3.org/2000/svg"
+                                                                               width="36" height="36"
+                                                                               viewBox="0 0 32 32">
+								<path fill="none" fill-rule="evenodd" stroke="#FFB500" stroke-width="1.5"
+                                      d="M16 1.695l-4.204 8.518-9.401 1.366 6.802 6.631-1.605 9.363L16 23.153l8.408 4.42-1.605-9.363 6.802-6.63-9.4-1.367L16 1.695z">
+								</path>
+							</svg></span><span class="write-review__star"><svg xmlns="http://www.w3.org/2000/svg"
+                                                                               width="36" height="36"
+                                                                               viewBox="0 0 32 32">
+								<path fill="none" fill-rule="evenodd" stroke="#FFB500" stroke-width="1.5"
+                                      d="M16 1.695l-4.204 8.518-9.401 1.366 6.802 6.631-1.605 9.363L16 23.153l8.408 4.42-1.605-9.363 6.802-6.63-9.4-1.367L16 1.695z">
+								</path>
+							</svg></span><span class="write-review__star"><svg xmlns="http://www.w3.org/2000/svg"
+                                                                               width="36" height="36"
+                                                                               viewBox="0 0 32 32">
+								<path fill="none" fill-rule="evenodd" stroke="#FFB500" stroke-width="1.5"
+                                      d="M16 1.695l-4.204 8.518-9.401 1.366 6.802 6.631-1.605 9.363L16 23.153l8.408 4.42-1.605-9.363 6.802-6.63-9.4-1.367L16 1.695z">
+								</path>
+							</svg></span>
+                    </div>
+                </div>
+                <div class="mb-3">
+                    <label class="form-label">Content</label>
+                    <textarea id="content-textarea" class="form-control" rows="3" disabled></textarea>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Rate model -->
+<div class="modal fade" id="rateModal" tabindex="-1" aria-labelledby="rateModaLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="rateModaLabel">Rate</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <!-- Body -->
+            <!-- Form -->
+            <form id="rate-form" action="/customer/ratting" method="post">
+                <div class="modal-body">
+                    <div class="mb-3">
+                        <label class="form-label">Star</label>
+                        <div class="write-review_stars d-flex flex-row justify-content-center gap-2">
+							<span class="write-review__star"><svg xmlns="http://www.w3.org/2000/svg" width="36"
+                                                                  height="36" viewBox="0 0 32 32">
+									<path fill="none" fill-rule="evenodd" stroke="#FFB500" stroke-width="1.5"
+                                          d="M16 1.695l-4.204 8.518-9.401 1.366 6.802 6.631-1.605 9.363L16 23.153l8.408 4.42-1.605-9.363 6.802-6.63-9.4-1.367L16 1.695z">
+									</path>
+								</svg></span><span class="write-review__star"><svg xmlns="http://www.w3.org/2000/svg"
+                                                                                   width="36" height="36"
+                                                                                   viewBox="0 0 32 32">
+									<path fill="none" fill-rule="evenodd" stroke="#FFB500" stroke-width="1.5"
+                                          d="M16 1.695l-4.204 8.518-9.401 1.366 6.802 6.631-1.605 9.363L16 23.153l8.408 4.42-1.605-9.363 6.802-6.63-9.4-1.367L16 1.695z">
+									</path>
+								</svg></span><span class="write-review__star"><svg xmlns="http://www.w3.org/2000/svg"
+                                                                                   width="36" height="36"
+                                                                                   viewBox="0 0 32 32">
+									<path fill="none" fill-rule="evenodd" stroke="#FFB500" stroke-width="1.5"
+                                          d="M16 1.695l-4.204 8.518-9.401 1.366 6.802 6.631-1.605 9.363L16 23.153l8.408 4.42-1.605-9.363 6.802-6.63-9.4-1.367L16 1.695z">
+									</path>
+								</svg></span><span class="write-review__star"><svg xmlns="http://www.w3.org/2000/svg"
+                                                                                   width="36" height="36"
+                                                                                   viewBox="0 0 32 32">
+									<path fill="none" fill-rule="evenodd" stroke="#FFB500" stroke-width="1.5"
+                                          d="M16 1.695l-4.204 8.518-9.401 1.366 6.802 6.631-1.605 9.363L16 23.153l8.408 4.42-1.605-9.363 6.802-6.63-9.4-1.367L16 1.695z">
+									</path>
+								</svg></span><span class="write-review__star"><svg xmlns="http://www.w3.org/2000/svg"
+                                                                                   width="36" height="36"
+                                                                                   viewBox="0 0 32 32">
+									<path fill="none" fill-rule="evenodd" stroke="#FFB500" stroke-width="1.5"
+                                          d="M16 1.695l-4.204 8.518-9.401 1.366 6.802 6.631-1.605 9.363L16 23.153l8.408 4.42-1.605-9.363 6.802-6.63-9.4-1.367L16 1.695z">
+									</path>
+								</svg></span>
+                        </div>
+                    </div>
+                    <input name="star" type="hidden"></input>
+                    <input name="tripId" type="hidden"></input>
+                    <div class="mb-3">
+                        <label class="form-label">Content</label>
+                        <textarea id="content-textarea" class="form-control" rows="3" name="content"></textarea>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-primary" data-bs-dismiss="modal">Rate</button>
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                </div>
+            </form>
+
+        </div>
+    </div>
+</div>
+<c:if test="${trip.state.state_id==2}">
+    <div id="mess-box-collapse">
+        <div id="mess-toggle">
+		  <span
+                  class=""
+                  data-bs-toggle="collapse"
+                  href="#collapse-mess"
+                  role="button"
+                  aria-expanded="false"
+                  aria-controls="collapse-mess"
+          >
+			<svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="32"
+                    height="32"
+                    fill="currentColor"
+                    class="bi bi-chat-dots"
+                    viewBox="0 0 16 16"
+            >
+			  <path
+                      d="M5 8a1 1 0 1 1-2 0 1 1 0 0 1 2 0zm4 0a1 1 0 1 1-2 0 1 1 0 0 1 2 0zm3 1a1 1 0 1 0 0-2 1 1 0 0 0 0 2z"
+              />
+			  <path
+                      d="m2.165 15.803.02-.004c1.83-.363 2.948-.842 3.468-1.105A9.06 9.06 0 0 0 8 15c4.418 0 8-3.134 8-7s-3.582-7-8-7-8 3.134-8 7c0 1.76.743 3.37 1.97 4.6a10.437 10.437 0 0 1-.524 2.318l-.003.011a10.722 10.722 0 0 1-.244.637c-.079.186.074.394.273.362a21.673 21.673 0 0 0 .693-.125zm.8-3.108a1 1 0 0 0-.287-.801C1.618 10.83 1 9.468 1 8c0-3.192 3.004-6 7-6s7 2.808 7 6c0 3.193-3.004 6-7 6a8.06 8.06 0 0 1-2.088-.272 1 1 0 0 0-.711.074c-.387.196-1.24.57-2.634.893a10.97 10.97 0 0 0 .398-2z"
+              />
+			</svg>
+		  </span>
+        </div>
+        <div id="collapse-mess" class="bg-secondary collapse">
+
+            <div id="mess-content" class="text-bg-secondary">
+
+                <div id="head-mess" class="d-flex flex-column justify-content-center">
+                    <h2 class="pt-0" style="text-align: center;">Chat with driver</h2>
+                    <span style="text-align: center;">Driver name: ${trip.driver.fullname}</span>
+                </div>
+                <div id="message" class="text-bg-secondary d-flex flex-column">
+                    <c:forEach var="chat" items="${listChat}">
+                        <tr>
+                            <td>
+                                <c:if test="${chat.sendTo}">
+                                    <div class="d-flex justify-content-end sender">
+                                        <span>${chat.content}</span>
+                                    </div
+                                    >
+                                </c:if>
+                                <c:if test="${chat.sendTo==false}">
+                                    <div class="d-flex justify-content-start receiver">
+                                        <span>${chat.content}</span></div
+                                    >
+                                </c:if>
+                            </td>
+                        </tr>
+                    </c:forEach>
+                </div>
+            </div>
+            <form id="form_user">
+                <div class="d-flex justify-content-between gap-2 px-2 py-2">
+                    <!-- <input type="text" class="form-control"/> -->
+                    <textarea class="form-control" id="socketChatting" rows="1"> </textarea>
+                    <input type="hidden" value="${trip.driver.phone}" id="phone_driver_socket_chatting" />
+                    <input type="hidden" value="${trip.tripId}" id="trip_id"/>
+                    <button id="send" type="button" class="btn btn-primary">
+                        Send</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</c:if>
+<input type="hidden" value="${customer.phone}" id="phone_customer_socket_chatting" />
+<input type="hidden" value="${socket_cancel}" id="socket_cancel"/>
+<input type="hidden" value="${phone_driver_socket_cancel}" id="phone_driver_socket_cancel"/>

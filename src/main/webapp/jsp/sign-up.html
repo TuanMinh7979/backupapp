@@ -1,0 +1,44 @@
+<div id="background-sign-up"></div>
+<div id="sign-up-box" class="bg-secondary">
+
+
+    <c:if test="${message != null}">
+        <div class="alert alert-warning alert-dismissible fade show" role="alert">
+            <p>${message}</p>
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+    </c:if>
+    <div class="container">
+        <h4 class="text-light">SIGN UP</h4>
+        <form action="" method="post" id="form-sign-up">
+            <label id="label-fullname" class="form-label text-light">Full Name*</label>
+            <input type="text" class="form-control" name="fullname" pattern="[a-zA-Z\s]{1,32}"
+                   title="Full Name should only contains word" required>
+            <label id="label-phone" class="form-label text-light">Phone*</label>
+            <input type="text" class="form-control" name="phone" pattern="[0-9]{10,11}"
+                   title="Phone should only contains number and have 10-11 number" required>
+            <label id="label-username" class="form-label text-light">User Name*</label>
+            <input type="text" class="form-control" name="username" pattern=".{4,32}"
+                   title="User Name must have at least 4 character" required>
+            <label id="label-password" class="form-label text-light">Password*</label>
+            <input type="password" class="form-control" name="password" pattern=".{8,32}"
+                   title="Password must have at least 8 character" required>
+            <label id="label-confirmpassword" class="form-label text-light">Confirm Password*</label>
+            <input type="password" class="form-control" name="confirmPassword"
+                   title="Confirm Password must match with password" required>
+            <label id="label-role" class="form-label text-light">You are ..</label>
+            <select class="form-select" name="role">
+                <option value="CUSTOMER">CUSTOMER</option>
+                <option value="DRIVER">DRIVER</option>
+            </select>
+            <div class="d-flex justify-content-center">
+                <button id="js-btn-submit-sign-up" type="" class="btn btn-dark mt-2 ">Sign up</button>
+            </div>
+            <div class="d-flex justify-content-end " style="margin-top:10px;">
+                <a href="/login" class="link-dark">If you have a account, sign in</a>
+            </div>
+        </form>
+    </div>
+</div>
+
+<script src="<c:url value='/resources/js/SignUp.js'/>"></script>
