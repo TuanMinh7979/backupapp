@@ -3,12 +3,11 @@ package Embed;
 import java.io.Serializable;
 
 import javax.persistence.Embeddable;
-import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
 
-import com.ivs.map.Model.Trip;
-import com.ivs.map.Model.Customer;
+import com.simpleapp.map.Model.Trip;
+import com.simpleapp.map.Model.Customer;
 
 @SuppressWarnings("serial")
 @Embeddable
