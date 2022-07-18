@@ -11,6 +11,7 @@ import org.springframework.web.servlet.ModelAndView;
 import java.util.stream.Collectors;
 @Controller
 public class MainController {
+
     @GetMapping("/")
     public String index(Model model) {
         String message = "Hello Spring Boot + JSP";
