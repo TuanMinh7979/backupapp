@@ -10,8 +10,9 @@
 	<groupId>com.ivs</groupId>
 	<artifactId>map</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
+	<packaging>jar</packaging>
 	<name>map</name>
-	<description>mapivs from group 4</description>
+	<description>appp</description>
 	<properties>
 		<java.version>1.8</java.version>
 	</properties>
