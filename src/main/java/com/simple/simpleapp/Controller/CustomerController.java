@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.simple.simpleapp.Repo.*;
-import com.simpleapp.map.Repo.*;
+
 import Embed.RattingId;
 import com.simple.simpleapp.Model.Customer;
 import com.simple.simpleapp.Model.Ratting;
