@@ -10,7 +10,7 @@ if($("#socketAccept").val()=="true"){
 	setTimeout(function(){
 			stompClient.send("/app/hello/accept/"+$("#phone_customer_socket_accept").val(), {}, $("#socketAccept").val());
 			// stompClient.disconnect();
-		}	,5000
+		}	,1000
 	);
 
 };
