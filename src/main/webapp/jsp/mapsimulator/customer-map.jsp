@@ -41,9 +41,9 @@
                     <button id="searchbtn" class="btn btn-success">FIND</button>
                 </form>
             </div>
-            <div class="col-5" style="display: flex; justify-content: space-between">
-                <span>DISTANCE:</span> <span id="distanceSpan"></span>
-                <span>PRICE: </span><span id="priceSpan"></span>
+            <div class="col-5" style="display: flex; justify-content: space-around">
+                <span style="font-weight: bold">DISTANCE:</span> <span id="distanceSpan"></span>
+                <span style="font-weight: bold">PRICE:</span><span id="priceSpan"></span>
                 <button class="btn btn-info" id="createTripBtn">CREATE A TRIP</button>
             </div>
 
